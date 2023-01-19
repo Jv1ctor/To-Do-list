@@ -1,0 +1,151 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  background: #F6F6F6;
+}
+
+ul{
+  list-style: none;
+}
+
+img{
+  max-width:100%;
+  height: auto;
+  display: block;
+}
+
+input,
+ul,
+button,
+.text{
+  font-size: 1.2rem;
+  border: none;
+}
+
+.container{
+  max-width: 800px;
+  margin: 120px auto;
+  text-align: center;
+}
+
+ h1{
+  font-size: 3rem;
+  margin-bottom: 30px;
+}
+
+.input-text{
+  padding: 5px 25px;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+}
+
+.input-text:focus{
+  outline: 2px solid #3FC5F0;
+}
+
+.search{
+  border-radius: 10px;
+  padding: 5px 10px;
+  background: #fff;
+  display: flex;
+  gap: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+}
+
+.search input{
+  outline: none;
+}
+
+.conteudo form{
+  display: grid;
+  justify-items: center;
+  /* gap: 30px; */
+}
+
+.list{
+  display: grid;
+  margin: 40px 0;
+  max-height:200px;
+  padding: 0 10px;
+  overflow-y:scroll;
+  justify-items: center;
+}
+
+.list li{
+  width: 220px;
+  background: #F6F6F6;
+  border-bottom:2px solid #e9e7e7 ;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  transition: 0.3s ease;
+}
+
+.list li:hover{
+  background: #F2F2F2;
+}
+
+input[type="checkbox"]{
+  display: none;
+}
+
+label{
+  position: relative;
+}
+
+label::before{
+  content: '';
+  cursor: pointer;
+  background: #fff;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+input[type="checkbox"]:checked +label::before{
+  background: #3FC5F0;
+  background-image: url('./img/simbolo-de-verificacao.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px;
+}
+
+.button-create{
+  margin-top: 20px;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 100px;
+  color: #fff;
+  background: #3FC5F0;
+  transition: 0.3s ease;
+}
+
+.button-create:hover{
+  background: #32b7e4;
+}
+
+.button-delete{
+  padding: 0 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: red;
+}
+
+.errorCreate-input{
+  border-color: red;
+}
+p.errorCreate-text{
+  color: red;
+  margin-top: 5px;
+}
