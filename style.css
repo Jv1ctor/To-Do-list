@@ -68,13 +68,33 @@ button,
 }
 
 .list{
-  display: grid;
   margin: 40px 0;
+  display: grid;
   max-height:200px;
-  padding: 0 10px;
   overflow-y:scroll;
+  padding: 0 20px;
   justify-items: center;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
 }
+
+.list{
+  scrollbar-width:thin;
+  scrollbar-color: #3FC5F0 #eeecec;
+  scrollbar-darkshadow-color:#32b7e4;
+  scrollbar-shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+.list::-webkit-scrollbar{
+  width: 12px;
+}
+
+.list::-webkit-scrollbar-track{
+  background: #eeecec;
+}
+.list::-webkit-scrollbar-thumb{
+  background: #3FC5F0;
+}
+
 
 .list li{
   width: 220px;
@@ -109,6 +129,7 @@ label::before{
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 0;
 }
 
 input[type="checkbox"]:checked +label::before{
