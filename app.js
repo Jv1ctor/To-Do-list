@@ -1,67 +1,85 @@
-const form = document.querySelector('form')
-const ul = document.querySelector('.list')
+const form = document.querySelector("form")
+const ul = document.querySelector(".list")
 const tasks = ul.children
-const errorCreate = document.createElement('p')
+const errorCreate = document.createElement("p")
 let numberTask = 1
 
-form.addEventListener('submit', event => {
-  event.preventDefault()
+const errorRemove = (classItem1, classItem2, element) => {
+  errorCreate.classList.remove(classItem1)
+  form.createTask.classList.remove(classItem2)
+  element.remove()
+}
+
+const errorAdd = (classItem1, classItem2, element, textElement) => {
+  errorCreate.classList.add(classItem1)
+  form.createTask.classList.add(classItem2)
+  form.createTask.insertAdjacentElement("afterend", element)
+  errorCreate.textContent = textElement
+}
+
+const resetInputsAndList = () => {
+  const istTasksList = Array.from(tasks)
+  form.createTask.value = ""
+  form.searchTask.value = ""
+  istTasksList.map((item) => (item.style.display = "flex"))
+}
+
+const createNewElementList = (text) => {
   numberTask++
-  const inputCreateTask = form.createTask
+  const task = `<li>
+  <input type="checkbox" name="task" id="task${numberTask}"> 
+  <label for="task${numberTask}"></label>
+  <span class="text">${text}</span> 
+  <span class="button-delete">x</span></li>`
+  ul.innerHTML += task
+  ul.scrollBy({
+    top: 100,
+    left: 0,
+    behavior: "smooth",
+  })
+}
+
+const submitTask = (event) => {
+  event.preventDefault()
+  const inputCreateTaskValue = form.createTask.value
   const inputRegex = /^[a-zA-Z0-9]{1,}$/
-  if(inputRegex.test(form.createTask.value)){
-    const task = `<li>
-          <input type="checkbox" name="task" id="task${numberTask}"> 
-          <label for="task${numberTask}"></label>
-          <span class="text">${inputCreateTask.value}</span> 
-          <span class="button-delete">x</span></li>` 
-      ul.innerHTML += task
-      ul.scrollBy({
-        top:100,
-        left:0,
-        behavior: 'smooth'
-      })
-      const istTasksList = Array.from(tasks)
-      form.createTask.value = ''
-      form.searchTask.value = ''
-      istTasksList.forEach((_,index) => istTasksList[index].style.display = 'flex')
-      errorCreate.classList.remove('errorCreate-text')
-      form.createTask.classList.remove('errorCreate-input')
-      return
-    }
-    errorCreate.textContent = 'invalid text'
-    errorCreate.classList.add('errorCreate-text')
-    form.createTask.classList.add('errorCreate-input')
-    form.createTask.insertAdjacentElement('afterend', errorCreate)
-    console.log('ola2')
-    form.createTask.addEventListener('keyup', () => {
-      errorCreate.classList.remove('errorCreate-text')
-      form.createTask.classList.remove('errorCreate-input')
-      errorCreate.remove()
-      console.log('ola')
-    })
-})
-
-
-ul.addEventListener('click', event  => {
-  const clickedOn = event.target.classList[0]
-  if(clickedOn === 'button-delete'){
-    event.target.parentElement.remove()
+  if (inputRegex.test(form.createTask.value)) {
+    createNewElementList(inputCreateTaskValue)
+    resetInputsAndList()
+    return
   }
-})
 
-form.searchTask.addEventListener('keyup', event => {
-  const inputKey = event.target.value
+  errorAdd("errorCreate-text", "errorCreate-input", errorCreate, "invalid text")
+  form.createTask.addEventListener("keyup", () => {
+    errorRemove("errorCreate-text", "errorCreate-input", errorCreate)
+  })
+}
+
+const buttonDeleteTask = ({ target }) => {
+  const clickedOn = target.classList[0]
+  if (clickedOn === "button-delete") {
+    target.parentElement.remove()
+  }
+}
+
+const searchingTask = ({ target }) => {
+  const inputKey = target.value
   const istTasksList = Array.from(tasks)
   istTasksList
-    .map( (li) => li.querySelector('.text').textContent)
+    .map((li) => li.querySelector(".text").textContent)
     .filter((textTask, index) => {
-      const isResearched = inputKey === '' || textTask === inputKey || textTask.search(inputKey) !== -1
-      if(isResearched){
-        istTasksList[index].style.display = 'flex'
+      const isResearched =
+        inputKey === "" ||
+        textTask === inputKey ||
+        textTask.search(inputKey) !== -1
+      if (isResearched) {
+        istTasksList[index].style.display = "flex"
         return
       }
-      istTasksList[index].style.display = 'none'
-  })
-})
+      istTasksList[index].style.display = "none"
+    })
+}
 
+form.addEventListener("submit", submitTask)
+ul.addEventListener("click", buttonDeleteTask)
+form.searchTask.addEventListener("keyup", searchingTask)
