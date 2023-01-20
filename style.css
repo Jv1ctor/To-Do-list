@@ -39,7 +39,7 @@ button,
 }
 
 .input-text{
-  padding: 5px 25px;
+  padding: 10px 25px;
   border: 2px solid rgba(0, 0, 0, 0.06);
   border-radius: 10px;
 }
@@ -50,7 +50,7 @@ button,
 
 .search{
   border-radius: 10px;
-  padding: 5px 10px;
+  padding: 10px 15px;
   background: #fff;
   display: flex;
   gap: 10px;
@@ -61,10 +61,9 @@ button,
   outline: none;
 }
 
-.conteudo form{
+.content form{
   display: grid;
   justify-items: center;
-  /* gap: 30px; */
 }
 
 .list{
@@ -72,7 +71,6 @@ button,
   display: grid;
   max-height:200px;
   overflow-y:scroll;
-  padding: 0 20px;
   justify-items: center;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
 }
@@ -85,7 +83,7 @@ button,
 }
 
 .list::-webkit-scrollbar{
-  width: 12px;
+  width: 5px;
 }
 
 .list::-webkit-scrollbar-track{
@@ -95,18 +93,17 @@ button,
   background: #3FC5F0;
 }
 
-
-.list li{
-  width: 220px;
+.task{
+  width: 300px;
   background: #F6F6F6;
-  border-bottom:2px solid #e9e7e7 ;
-  padding: 10px 15px;
+  border-bottom:2px solid #e9e7e7;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   transition: 0.3s ease;
 }
 
-.list li:hover{
+.task:hover{
   background: #F2F2F2;
 }
 
@@ -169,4 +166,8 @@ input[type="checkbox"]:checked +label::before{
 p.errorCreate-text{
   color: red;
   margin-top: 5px;
+}
+
+.hidden{
+  display: none;
 }

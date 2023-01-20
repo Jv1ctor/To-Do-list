@@ -1,6 +1,6 @@
 const form = document.querySelector("form")
 const ul = document.querySelector(".list")
-const tasks = ul.children
+const todoList = ul.children
 const errorCreate = document.createElement("p")
 let numberTask = 1
 
@@ -17,35 +17,31 @@ const errorAdd = (classItem1, classItem2, element, textElement) => {
   errorCreate.textContent = textElement
 }
 
-const resetInputsAndList = () => {
-  const istTasksList = Array.from(tasks)
-  form.createTask.value = ""
-  form.searchTask.value = ""
-  istTasksList.map((item) => (item.style.display = "flex"))
-}
+const resetList = () => Array.from(todoList)
+  .map((item) => item.classList.remove('hidden'))
 
-const createNewElementList = (text) => {
+const createNewTodo = (inputValue) => {
   numberTask++
-  const task = `<li>
+  ul.innerHTML += `<li class="task">
   <input type="checkbox" name="task" id="task${numberTask}"> 
   <label for="task${numberTask}"></label>
-  <span class="text">${text}</span> 
+  <span class="text">${inputValue}</span> 
   <span class="button-delete">x</span></li>`
-  ul.innerHTML += task
-  ul.scrollBy({
-    top: 100,
+  ul.scrollTo({
+    top: 10000,
     left: 0,
     behavior: "smooth",
   })
 }
 
-const submitTask = (event) => {
+const submitTodos = (event) => {
   event.preventDefault()
-  const inputCreateTaskValue = form.createTask.value
+  const inputCreateTaskValue = form.createTask.value.trim()
   const inputRegex = /^[a-zA-Z0-9]{1,}$/
-  if (inputRegex.test(form.createTask.value)) {
-    createNewElementList(inputCreateTaskValue)
-    resetInputsAndList()
+  if(inputRegex.test(inputCreateTaskValue)) {
+    createNewTodo(inputCreateTaskValue)
+    resetList()
+    event.target.reset()
     return
   }
 
@@ -55,31 +51,37 @@ const submitTask = (event) => {
   })
 }
 
-const buttonDeleteTask = ({ target }) => {
+const buttonDeleteTodos = ({ target }) => {
   const clickedOn = target.classList[0]
   if (clickedOn === "button-delete") {
     target.parentElement.remove()
   }
 }
 
-const searchingTask = ({ target }) => {
-  const inputKey = target.value
-  const istTasksList = Array.from(tasks)
-  istTasksList
-    .map((li) => li.querySelector(".text").textContent)
-    .filter((textTask, index) => {
-      const isResearched =
-        inputKey === "" ||
-        textTask === inputKey ||
-        textTask.search(inputKey) !== -1
-      if (isResearched) {
-        istTasksList[index].style.display = "flex"
-        return
-      }
-      istTasksList[index].style.display = "none"
-    })
+const filterTodos = (arrayTodo,inputValue, returnMatchedTodo) => arrayTodo
+  .filter((task) => {
+    const matchedTodos = task.querySelector(".text").textContent.toLowerCase().includes(inputValue)
+    return returnMatchedTodo ? matchedTodos : !matchedTodos
+  })
+
+const hideTodos = (arrayTodo,inputValue) => {
+  filterTodos(arrayTodo, inputValue, false)
+  .forEach( item => item.classList.add('hidden'))
 }
 
-form.addEventListener("submit", submitTask)
-ul.addEventListener("click", buttonDeleteTask)
-form.searchTask.addEventListener("keyup", searchingTask)
+const showTodos = (arrayTodo,inputValue) => {
+  filterTodos(arrayTodo, inputValue, true)
+  .forEach( item => item.classList.remove('hidden'))
+}
+
+const searchingTodos = ({ target }) => {
+  const inputKey = target.value.trim().toLowerCase()
+  const isTodosList = Array.from(todoList)
+
+  hideTodos(isTodosList, inputKey)
+  showTodos(isTodosList, inputKey)
+}
+
+form.addEventListener("submit", submitTodos)
+ul.addEventListener("click", buttonDeleteTodos)
+form.searchTask.addEventListener("keyup", searchingTodos)
